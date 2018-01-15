@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			body{
+				width:100%;
+				height:100vh;
+				background:url(img/bg.jpg) no-repeat;
+				background-size:100% 100%;
+				overflow: hidden;
+			}
+			img{
+				position:absolute;
+			}
+		</style>
+	</head>
+	<body>
+		
+	</body>
+</html>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script>
+	var count=0;
+	var timer=setInterval(function(){
+		var snow =new Snow(count);
+	    $("body").append(snow.ele);
+	    snow.move();
+	    count++;
+	    if(count>20){
+	    	clearInterval(timer);
+	    }
+	},1000)
+	
+	
+	function Snow(n){
+		this.ele="<img id='snow"+n+"'src='img/snow.gif'/>";
+		
+		this.move=function(){
+			var l=Math.floor(Math.random() * $("body").width());
+			var t=Math.floor(Math.random() * $("body").height());
+			$("#snow"+n)[0].style.left=l+"px";
+			$("#snow"+n)[0].style.top=t+"px";
+			setInterval(function(){
+				var l=Math.floor(Math.random() * $("body").width());
+				var t=Math.floor(Math.random() * $("body").height());
+				$("#snow"+n).animate({left:l,top:t},1000);
+			},1000);
+		}
+	}
+</script>
