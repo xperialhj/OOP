@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		.bird{
+			width:462px;
+			height:377px;
+			background:url(img/QQ图片20180116145407.jpg);
+			position: absolute;
+		}
+	</style>
+	<body>
+	</body>
+</html>
+<script type="text/javascript" src="js/jquery-1.11.1.js" ></script>
+<script>
+//	function Bird(){
+//		this.ele=$("<div></div>");
+//		this.ele.addClass("bird");
+//		this.ele.appendTo("body");
+//		
+//	}
+//	Bird.prototype.move=function(){
+//			var self=this.ele;
+//			this.ele.mousedown(function(e){
+//				var l=e.offsetX;
+//				var t=e.offsetY;
+//				self.on("mousemove",function(e){
+//					var L=e.clientX-l;
+//					var T=e.clientY-t;
+//					self.css({"left":L,"top":T});
+//				})
+//				self.mouseup(function(){
+//	               self.off("mousemove")
+//			    })
+//			})	
+//	}
+//	new Bird().move();
+
+	function Bird(){
+		this.ele=$("<div></div>");
+		this.ele.addClass("bird");
+		this.ele.appendTo("body");
+		this.start();
+	}
+	Bird.prototype.start=function(){
+			var self=this;
+			console.log(self)
+			this.ele.mousedown(function(e){
+				var l=e.offsetX;
+				var t=e.offsetY;
+				self.ele.on("mousemove",function(e){
+					var L=e.clientX-l;
+					var T=e.clientY-t;
+					self.move(L,T);
+				})
+				self.ele.mouseup(function(){
+	               self.stop();
+			    })
+			})	
+	}
+	Bird.prototype.move=function(x,y){
+		this.ele.css({left:x,top:y})
+	}
+	Bird.prototype.stop=function(){
+		this.ele.off("mousemove");
+	}
+	new Bird();
+</script>

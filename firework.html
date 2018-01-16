@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style>
+		* {
+				margin: 0;
+				padding: 0;
+		  }
+			
+		body {
+			height: 100vh;
+			background: url(img/bg.jpg) no-repeat;
+			background-size: 100% 100%;
+			overflow: hidden;
+		}
+		.firework{
+			width:10px;
+			height:20px;
+			background:white;
+			position:absolute;
+		}
+		.boom{
+			width:4px;
+			height:4px;
+			
+			position:absolute;
+		}
+	</style>
+	<body>
+	</body>
+</html>
+<script type="text/javascript" src="js/jquery-1.11.1.js" ></script>
+<script>
+   function Firework(x,y){
+   	 this.ele=$("<div></div>");
+   	 this.ele.addClass("firework");
+   	 this.ele.appendTo("body");
+	 this.ele.css({left:x,top:($("body").height())});
+	 this.launch(x,y);
+   }
+   Firework.prototype.launch=function(x,y){
+   	 var self=this;
+	 this.ele.animate({top:y},500,function(){
+	 	this.remove();
+	 	for (var i = 0; i <50; i++) {
+	 		new Boom().fly(x,y);
+	 	}
+	 })
+   }
+   function Boom(){
+   	 this.ele=$("<div></div>");
+   	 this.ele.addClass("boom");
+   	 var color=["red","green","yellow","purple","skyblue"];
+   	 var n=Math.floor(Math.random()*5);
+   	 console.log(n)
+   	 this.ele.css("background",color[n]);
+   }
+   Boom.prototype.fly=function(x,y){
+   	var self=this.ele;
+   	 this.ele.css({left:x,top:y});
+   	 x=x+Math.random()*600-300;
+   	 y=y+Math.random()*600-300;
+   	 this.ele.appendTo("body");
+   	 this.ele.animate({left:x,top:y},400,function(){ 	
+ 	 		self.remove();
+   	 })
+   }
+   
+   $("body").click(function(e){
+	   	X=e.clientX;
+	   	Y=e.clientY;
+	   	new Firework(X,Y);
+   })
+   
+</script>
