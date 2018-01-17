@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="{CHARSET}">
+		<title></title>
+	</head>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		div{
+			width:100px;
+			height:100px;
+			position: absolute;
+		}
+		#box1{
+			left:0;
+			background:deepskyblue;
+		}
+		#box2{
+			left:150px;
+			background: deeppink;
+		}
+		#box3{
+			left:300px;
+			background:darkred;
+		}
+	</style>
+	<body>
+		<div id="box1"></div>
+		<div id="box2"></div>
+		<div id="box3"></div>
+		
+	</body>
+</html>
+<script src="js/jquery-1.11.1.js"></script>
+<script>
+	function DragBox(boxId){
+		this.ele=$(boxId);
+		this.start();
+	}
+	DragBox.prototype.start=function(){
+		var self=this;
+		this.ele.mousedown(function(e){
+			e.preventDefault() 
+			var dataX=e.offsetX;
+			var dataY=e.offsetY;
+		  $(document).mousemove(function(e){
+		  	e.preventDefault() 
+		  	var x=e.clientX-dataX;
+		  	var y=e.clientY-dataY;
+		  	self.move(x,y);
+		  })
+		})
+		$(document).mouseup(function(){
+			self.stop();
+		})
+	}
+	DragBox.prototype.move=function(x,y){
+		this.ele.css({
+			left:x,
+   			top:y		
+		})
+	}
+	DragBox.prototype.stop=function(){
+		$(document).off("mousemove");
+	}
+	function DragBoxLimit(boxId){
+		DragBox.call(this,boxId);
+	}
+	DragBoxLimit.prototype=new DragBox();
+	DragBoxLimit.prototype.move=function(x,y){
+		if(x<0){
+			x=0;
+		}
+		if(y<0){
+			y=0;
+		}
+		this.ele.css({
+			left:x,
+   			top:y		
+		})
+	}
+	function DragBoxText(boxId){
+		DragBoxLimit.call(this,boxId);
+	}
+	DragBoxText.prototype=new DragBoxLimit();
+	DragBoxText.prototype.move=function(x,y){
+		DragBoxLimit.prototype.move.call(this,x,y);
+		//this.ele.html("left:"+x+"px;<br/>top:"+y+"px;");	
+		this.ele.html("left:"+this.ele.css("left")+";<br/>top:"+this.ele.css("top")+";");
+	}
+	
+	new DragBox("#box1");
+	new DragBoxLimit("#box2");
+	new DragBoxText("#box3");
+	
+</script>
